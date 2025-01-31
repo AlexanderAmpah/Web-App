@@ -9,7 +9,7 @@ def home():
 
 @app.route('/projects')
 def projects():
-    return "<h2>This is the Coding projects Page</h2>"
+    return render_template('projects.html')
 
 if __name__ == '__main__':
     serve(app, host='0.0.0.0', port=5000)
