@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>My Website</h1>
+    </header>
+    <main>
+        <section id="projects">
+            <!-- {% for project in projects %}
+            <div class="project">
+                <h2>{{ project.name }}</h2>
+                <p>{{ project.description }}</p>
+                <a href="{{ project.link }}">View on GitHub</a>
+            </div>
+            {% endfor %} -->
+            <p>I am a recent graduate from Carleton University with an honurs degree in Computer Science.</p>
+        </section>
+    </main>
+    <footer>
+        <p></p>
+    </footer>
+</body>
+</html>
