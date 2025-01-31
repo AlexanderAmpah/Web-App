@@ -1,7 +1,13 @@
 from flask import Flask, render_template
 from waitress import serve
+from flask import send_from_directory
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
+
+@app.route('/static/<path:filename>')
+def static_files(filename):
+    return send_from_directory('static', filename)
+
 
 @app.route('/')
 def home():
