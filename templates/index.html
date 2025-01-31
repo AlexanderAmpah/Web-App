@@ -10,14 +10,18 @@
     <header>
         <div class="container">
             <h1 class="logo">Oko's web app</h1>
-                <strong><nav>
-                    <ul class="menu">
-                        <li><a href="{{ url_for('home') }}">Home</a></li>
-                        <li><a href="{{ url_for('projects') }}">Projects</a></li>
-                    </ul>
-                </nav></strong>
+            <strong><nav>
+                <ul class="menu">
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('projects') }}">Projects</a></li>
+                </ul>
+            </nav></strong>
         </div>
     </header>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
     <main>
         <section id="about">
             <p>Welcome to my website! Here, you can find details about my coding journey and other aspects of my life.
@@ -32,7 +36,7 @@
         </section> --> 
     </main>
     <footer>
-        <p>&copy; Oko Ampah 2025</p>
+        <p>&copy;Oko Ampah 2025</p>
     </footer>
 </body>
 </html>
