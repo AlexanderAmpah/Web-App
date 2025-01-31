@@ -4,7 +4,7 @@ from flask import send_from_directory
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
-@app.route('/static/<path:filename>')
+@app.route('/static/styles.css')
 def static_files(filename):
     return send_from_directory('static', filename)
 
