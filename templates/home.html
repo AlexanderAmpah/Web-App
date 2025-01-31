@@ -19,11 +19,14 @@
             </div>
         </header>
         <div class="container">
-            <section id="about">
-                <p>Welcome to my website! Here, you can find details about my coding journey and other aspects of my life.
-                    I am a recent graduate with a bachelors degree in Computer Science Honours from Carleton University, Ottawa.
-                </p>
-            </section>
+            {% extends "layout.html" %}
+            {% block content %}
+                <div class="about">
+                    <p>Welcome to my website! Here, you can find details about my coding journey and other aspects of my life.
+                        I am a recent graduate with a bachelors degree in Computer Science Honours from Carleton University, Ottawa.
+                    </p>
+                </div>
+            {% endblock %}
         </div>
         <main>
             
