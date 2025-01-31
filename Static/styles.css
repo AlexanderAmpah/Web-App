@@ -39,13 +39,13 @@ div.home {
        -moz-border-radius: 6px;
             border-radius: 6px;
 }
-/* div.about {
+div.projects {
     padding: 10px 0 30px 0;
     background-color: #E6E6FA;
     -webkit-border-radius: 6px;
        -moz-border-radius: 6px;
             border-radius: 6px;
-} */
+}
 h2 {
     font-size: 3em;
     margin-top: 40px;
