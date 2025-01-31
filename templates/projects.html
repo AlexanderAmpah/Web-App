@@ -8,19 +8,28 @@
 </head>
 <body>
     <header>
-        <a href="{{ url_for('home') }}">Home</a>
-        <h1>My Coding Projects</h1>
+        <div class="container">
+            <h1 class="logo">Oko's web app</h1>
+            <strong><nav>
+                <ul class="menu">
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                </ul>
+            </nav></strong>
+        </div>
     </header>
     <main>
+        <div class="container">
+            <h1>My Coding Projects: </h1>
         <section id="project_info">
             <p>This page is dedicated to my coding projects.
             </p>
         </section>
         <section id="project1">
-            <h2>Recognizing Printed Handwriting from an Image: </h2>
+            <h3>Recognizing Printed Handwriting from an Image: </h3>
             <p>In this project I designed and implemented a program that utilized different computer vision algorithms, and a neural network 
                 trained on the EMNIST letters dataset to recognize handwritten letters in an image and translate them into digital text.</p>
         </section>
+        </div>
     </main>
     <footer>
         <p>&copy; Oko Ampah 2025</p>
