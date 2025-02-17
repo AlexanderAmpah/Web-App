@@ -38,7 +38,7 @@ planetloader.load(
 );
 
 const textLabels = [
-    { position: new THREE.Vector3(0.1, 0.25, 0.95), look: new THREE.Vector3(0.8, 1, 4), text: "About" , url: "www.example.com" },
+    { position: new THREE.Vector3(0.1, 0.25, 0.95), look: new THREE.Vector3(0.8, 1, 4), text: "About" , url: "about.html" },
     { position: new THREE.Vector3(0.97, -0.29, 0.1), look: new THREE.Vector3(2, -0.5, 0), text: "Projects", url: "https://github.com/AlexanderAmpah" },
     { position: new THREE.Vector3(-0.58, -0.7, 0.5), look: new THREE.Vector3(-13, -25, 25), text: "Contact", url: "www.example.com" }
 ];
@@ -79,6 +79,53 @@ function attachTextToModel(model, labels) {
 const light = new THREE.AmbientLight( 0x404040, 17); // soft white light
 scene.add( light );
 
+function createStars() {
+    const starGeometry = new THREE.BufferGeometry();
+    const starVertices = [];
+    
+    for (let i = 0; i < 5000; i++) {  // the number of stars
+        const x = (Math.random() - 0.5) * 2000; // Spread stars across space
+        const y = (Math.random() - 0.5) * 2000;
+        const z = (Math.random() - 0.5) * 2000;
+        starVertices.push(x, y, z);
+    }
+    
+    starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+
+    const starMaterial = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 1, // size of stars
+        sizeAttenuation: true,
+    });
+
+    const starField = new THREE.Points(starGeometry, starMaterial);
+    starField.material.depthWrite = false;
+    scene.add(starField);
+}
+
+createStars();
+
+// const canvas = document.createElement('canvas');
+// const context = canvas.getContext('2d');
+// canvas.width = 512;
+// canvas.height = 256;
+
+// // Draw text on canvas
+// context.fillStyle = 'white';
+// context.font = '50px Arial';
+// context.fillText('Planet Oko:', 50, 150);
+
+// // Convert canvas to texture
+// const texture = new THREE.CanvasTexture(canvas);
+// const textMaterial = new THREE.MeshBasicMaterial({ map: texture, transparent: true });
+
+// // Create a plane to display the texture
+// const textPlane = new THREE.Mesh(new THREE.PlaneGeometry(2, 1), textMaterial);
+// textPlane.position.set(-2, 1, -3);
+// textPlane.lookAt(1, 0.5, 1);
+// scene.add(textPlane);
+
+
 // Handle Click Event
 window.addEventListener('click', (event) => {
     const raycaster = new THREE.Raycaster();
@@ -107,9 +154,9 @@ controls.enableDamping = true;
 // Animation Loop
 function animate() {
     requestAnimationFrame(animate);
-    // if (model) { // Ensure the model is loaded before rotating
-    //     model.rotation.y += 0.002; // Adjust speed here
-    // }
+    if (model) { // Ensure the model is loaded before rotating
+        model.rotation.y += 0.002; // Adjust speed here
+    }
     controls.update();
     renderer.render(scene, camera);
 }
