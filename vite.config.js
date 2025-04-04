@@ -1,8 +1,13 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
 
 export default defineConfig({
-  // root: 'static', // Serve files from the 'static' folder
   server: {
-    open: '/static/index.html', // Open this page on startup
+    open: '/index.html', // Auto-opens in browser
   },
-});
+  base: './', // Ensures relative asset paths in production build
+  build: {
+    outDir: 'dist', // Default, but can be customized
+    assetsDir: 'assets', // Default
+    emptyOutDir: true,
+  },
+})
