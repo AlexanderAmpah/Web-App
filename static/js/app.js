@@ -8,44 +8,49 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 // camera.position.z = 5;
-camera.position.set(1, 1, 3);
+camera.position.set(-1, 1, -3);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-let model;
+let model_1;
+let model_2;
 let textMesh;
-let textMesh2;
+let angle = 0;
 
-const planetloader = new GLTFLoader();
-planetloader.load(
-    '/models/Planet_2.1.glb', // Make sure the path is correct
-    (gltf) => {
-        model = gltf.scene;
-        model.scale.set(1, 1, 1); // Adjust scale if needed
-        model.position.set(0, 0, 0);
-        scene.add(model);
-        attachTextToModel(model, textLabels);
-        
-    },
-    (xhr) => {
-        console.log(`Model ${xhr.loaded / xhr.total * 100}% loaded`);
-    },
-    (error) => {
-        console.error('Error loading model:', error);
-    }
-);
+const loader = new GLTFLoader();
+
+Promise.all([
+    loader.loadAsync('/models/Planet_3.glb'),
+    loader.loadAsync('/models/moon_3.glb')
+])
+.then(([gltf1, gltf2]) => {
+    model_2 = gltf2.scene;
+    model_1 = gltf1.scene;
+    model_1.scale.set(1, 1, 1);
+    model_1.position.set(0, 0, 0); 
+    
+    scene.add(model_1);
+    attachTextToModel(model_1, textLabels);
+
+    model_2.scale.set(0.2, 0.2, 0.2);
+    model_2.position.set(-2, 0, 0); 
+    scene.add(model_2);
+
+    console.log("Both models loaded successfully!");
+})
+.catch(error => console.error('Error loading models:', error));
 
 const textLabels = [
-    { position: new THREE.Vector3(0.1, 0.25, 0.95), look: new THREE.Vector3(0.8, 1, 4), text: "About" , url: "about.html" },
-    { position: new THREE.Vector3(0.97, -0.29, 0.1), look: new THREE.Vector3(2, -0.5, 0), text: "Projects", url: "https://github.com/AlexanderAmpah" },
-    { position: new THREE.Vector3(-0.58, -0.7, 0.5), look: new THREE.Vector3(-13, -25, 25), text: "Contact", url: "www.example.com" }
+    { position: new THREE.Vector3(-0.85, -0.15, -0.5), look: new THREE.Vector3(-17, -0.5, -7), text: "About" , url: "https://okos-dynasite.webflow.io" },
+    { position: new THREE.Vector3(0.6, -0.15, -0.84), look: new THREE.Vector3(1, -0.2, -2), text: "GitHub", url: "https://github.com/AlexanderAmpah" },
+    { position: new THREE.Vector3(0.35, 0.65, -0.65), look: new THREE.Vector3(0.5, 1.5, -2), text: "Contact", url: "https://www.linkedin.com/in/alexander-ampah-26a30a181/" }
 ];
 
 const clickableText = [];
 
-function attachTextToModel(model, labels) {
+function attachTextToModel(model_1, labels) {
     const fontloader = new FontLoader();
     fontloader.load('/static/fonts/helvetiker_regular.typeface.json', (font) => {
         labels.forEach(({ position, look, text, url }) => {
@@ -61,7 +66,7 @@ function attachTextToModel(model, labels) {
             });
 
 
-            const textMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+            const textMaterial = new THREE.MeshStandardMaterial({ color: 0xcc0000 }); //0xff0000
             textMesh = new THREE.Mesh(textGeometry, textMaterial);
 
             // Adjust position
@@ -70,14 +75,25 @@ function attachTextToModel(model, labels) {
             
             textMesh.userData.url = url;
             clickableText.push(textMesh);
-            model.add(textMesh);
+            model_1.add(textMesh);
 
         });
 
     });
 }
-const light = new THREE.AmbientLight( 0x404040, 17); // soft white light
+const light = new THREE.AmbientLight( 0x404040, 50); // soft white light
 scene.add( light );
+
+// Atmosphere Sphere (Slightly larger than the planet)
+const atmosphereGeometry = new THREE.SphereGeometry(1.15, 132, 132); // Slightly larger than the main sphere
+const atmosphereMaterial = new THREE.MeshStandardMaterial({
+    color: 0x66aaff,   // Light blue atmosphere color
+    transparent: true,
+    opacity: 0.3,      // Adjust transparency
+    side: THREE.BackSide // Render inside out for a glow effect
+});
+const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+scene.add(atmosphere);
 
 function createStars() {
     const starGeometry = new THREE.BufferGeometry();
@@ -94,7 +110,7 @@ function createStars() {
 
     const starMaterial = new THREE.PointsMaterial({
         color: 0xffffff,
-        size: 1, // size of stars
+        size: 1.5, // size of stars
         sizeAttenuation: true,
     });
 
@@ -154,8 +170,13 @@ controls.enableDamping = true;
 // Animation Loop
 function animate() {
     requestAnimationFrame(animate);
-    if (model) { // Ensure the model is loaded before rotating
-        model.rotation.y += 0.002; // Adjust speed here
+    if (model_1) { // Ensure the model is loaded before rotating
+        model_1.rotation.y -= 0.001;
+    }
+    if (model_2) {
+        angle += 0.005; // Adjust speed of orbit
+        model_2.position.x = 2 * Math.cos(angle);
+        model_2.position.z = 2 * Math.sin(angle);
     }
     controls.update();
     renderer.render(scene, camera);

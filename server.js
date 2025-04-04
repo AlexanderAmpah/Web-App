@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 5173;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Serve static files from the 'static' directory
+// Serve static files from the 'static' directory 
 app.use(express.static(path.join(__dirname, '../static')));
 
 // Serve index.html for the root route
