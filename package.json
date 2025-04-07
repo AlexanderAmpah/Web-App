@@ -1,18 +1,37 @@
 {
   
   "scripts": {
-    "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0 --port 10000",
-    "start": "vite preview --host 0.0.0.0 --port 10000"
+  
+    
+  "build": "vite build",
+  
+    
+  "preview": "vite preview --host 0.0.0.0 --port 10000",
+  
+    
+  "start": "vite preview --host 0.0.0.0 --port 10000"
+  
   },
   
   "type": "module",
-  "dependencies": {
-    "express": "^4.21.2",
-    "three": "^0.173.0"
-  },
-  "devDependencies": {
-    "vite": "^5.2.0"
-  }
   
+  "dependencies": {
+  
+    
+  "express": "^4.21.2",
+  
+    
+  "three": "^0.173.0"
+  
+  },
+  
+  "devDependencies": {
+  
+    
+  "@types/three": "^0.175.0",
+  
+    
+  "vite": "^5.2.0"
+  
+  }
 }
