@@ -52,7 +52,7 @@ const clickableText = [];
 
 function attachTextToModel(model_1, labels) {
     const fontloader = new FontLoader();
-    fontloader.load('/static/fonts/helvetiker_regular.typeface.json', (font) => {
+    fontloader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
         labels.forEach(({ position, look, text, url }) => {
             const textGeometry = new TextGeometry(text, {
                 font: font,
