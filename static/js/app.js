@@ -16,6 +16,7 @@ document.body.appendChild(renderer.domElement);
 
 let model_1;
 let model_2;
+let model_3;
 let textMesh;
 let angle = 0;
 
@@ -23,20 +24,28 @@ const loader = new GLTFLoader();
 
 Promise.all([
     loader.loadAsync('/models/Planet_3.glb'),
-    loader.loadAsync('/models/moon_3.glb')
+    loader.loadAsync('/models/moon_3.glb'),
+    loader.loadAsync('/models/ufo_1_cat.glb')
 ])
-.then(([gltf1, gltf2]) => {
+.then(([gltf1, gltf2, gltf3]) => {
     model_2 = gltf2.scene;
     model_1 = gltf1.scene;
+    model_3 = gltf3.scene;
+
     model_1.scale.set(1, 1, 1);
     model_1.position.set(0, 0, 0); 
     
     scene.add(model_1);
     attachTextToModel(model_1, textLabels);
 
-    model_2.scale.set(0.2, 0.2, 0.2);
+    model_2.scale.set(0.25, 0.25, 0.25);
     model_2.position.set(-2, 0, 0); 
     scene.add(model_2);
+
+    model_3.scale.set(0.03, 0.03, 0.03);
+    model_3.position.set(-2, 0.4, 0);
+    model_3.lookAt(-40, 0, -8);
+    scene.add(model_3);
 
     console.log("Both models loaded successfully!");
 })
@@ -174,10 +183,35 @@ function animate() {
         model_1.rotation.y -= 0.001;
     }
     if (model_2) {
-        angle += 0.005; // Adjust speed of orbit
+        angle += 0.0035; // Adjust speed of orbit
         model_2.position.x = 2 * Math.cos(angle);
         model_2.position.z = 2 * Math.sin(angle);
     }
+    // if (model_3) {
+    //     // Nested orbit: satellite around the moon
+    //     const OrbitRadius = 0.38;
+    //     const ufo_angle = angle * 4; // Faster orbit around the moon
+
+    //     // Optional tilt for diagonal orbit
+    //     const tilt = Math.PI / 6;
+    //     const cosTilt = Math.cos(tilt);
+    //     const sinTilt = Math.sin(tilt);
+
+    //     const localX = OrbitRadius * Math.cos(ufo_angle);
+    //     const localZ = OrbitRadius * Math.sin(ufo_angle);
+    //     const localY = 0;
+
+    //     const tiltedY = localY * cosTilt - localZ * sinTilt;
+    //     const tiltedZ = localY * sinTilt + localZ * cosTilt;
+
+    //     model_3.position.set(
+    //         model_2.position.x + localX,
+    //         model_2.position.y + tiltedY,
+    //         model_2.position.z + tiltedZ
+    //     );
+    // }
+    
+
     controls.update();
     renderer.render(scene, camera);
 }
